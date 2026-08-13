@@ -11,4 +11,4 @@ async function getUrl() {
     document.getElementById("name").innerText = users.join("\n");
 }
 
-getUrl();
+getUrl();z
