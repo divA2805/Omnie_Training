@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>Template Literals</title>
+        <body>
+            <h1>Template Literals</h1>
+            <p id="demo"></p>
+            <p id="greet"></p>
+            <script>
+                let name="Akash";
+                let age=23;
+                //in template literal we use backticks to show pre defined message with variable and we pass variable using ${}
+
+                let str=`My name is ${name} 
+                and i am ${age} year old.`;
+
+                function greet(string,value){
+                    //Tag Literals
+                    let x= string[0] + value.toUpperCase();
+                    document.getElementById("greet").innerText=x;
+
+                }
+
+                greet `Hello ${name}`;
+
+                document.getElementById("demo").innerText=str;
+
+            </script>
+        </body>
+    </head>
+</html>

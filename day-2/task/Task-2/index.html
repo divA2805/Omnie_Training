@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>optional chaining</title>
+        <body>
+            <h1>Optional chaining</h1>
+            <p id="demo"></p>
+          
+            <script>
+                const person={
+                    name:"Akash",
+                    age:23,
+                    address:{
+                        city:"delhi",
+                        house:2
+                    }
+                }
+                
+
+                //document.getElementById("demo").innerText=person.address.street;
+
+                document.getElementById("demo").innerText=person?.address?.pincode?.city?? "No value";
+          
+            </script>
+        </body>
+    </head>
+</html>
