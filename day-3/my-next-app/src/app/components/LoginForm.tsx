@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import {
     Button,
     Paper,
@@ -9,80 +10,90 @@ import {
     Typography,
 } from "@mui/material";
 
-export default function LoginPage() {
+export default function LoginForm() {
     const router = useRouter();
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-
     const [error, setError] = useState("");
-
     const [loading, setLoading] = useState(false);
 
     async function handleLogin(
-        e: React.FormEvent<HTMLFormElement>
+        event: React.FormEvent<HTMLFormElement>
     ) {
-        e.preventDefault();
+        event.preventDefault();
 
         setError("");
         setLoading(true);
 
         try {
-            const response = await fetch("/api/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username,
-                    password,
-                }),
-            });
+            const response = await fetch(
+                "/api/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password,
+                    }),
+                }
+            );
 
             const data = await response.json();
 
             if (!response.ok) {
-                setError(data.error);
+                setError(
+                    data.error ||
+                        "Invalid credentials"
+                );
                 return;
             }
 
             router.push("/Home");
+            router.refresh();
         } catch (error) {
             console.error(error);
-            setError("Something went wrong");
+            setError(
+                "Something went wrong"
+            );
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <main
-            style={{
-                padding: "40px",
-                maxWidth: "400px",
-            }}
-        >
+        <main className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
             <Paper
-                elevation={3}
-                style={{
-                    padding: "30px",
-                }}
+                elevation={4}
+                className="w-full max-w-md p-8"
             >
                 <Typography
                     variant="h4"
-                    sx={{ mb: 3 }}
+                    className="text-center"
+                    sx={{ mb: 1 }}
                 >
                     Login
                 </Typography>
 
-                <form onSubmit={handleLogin}>
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    className="text-center"
+                    sx={{ mb: 4 }}
+                >
+                    Login to access Omnie Solutions
+                </Typography>
 
+                <form onSubmit={handleLogin}>
                     <TextField
                         label="Username"
                         value={username}
-                        onChange={(e) =>
+                        onChange={(event) =>
                             setUsername(
-                                e.target.value
+                                event.target.value
                             )
                         }
                         fullWidth
@@ -93,9 +104,9 @@ export default function LoginPage() {
                         label="Password"
                         type="password"
                         value={password}
-                        onChange={(e) =>
+                        onChange={(event) =>
                             setPassword(
-                                e.target.value
+                                event.target.value
                             )
                         }
                         fullWidth
@@ -121,7 +132,6 @@ export default function LoginPage() {
                             ? "Logging in..."
                             : "Login"}
                     </Button>
-
                 </form>
             </Paper>
         </main>

@@ -1,12 +1,10 @@
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const { username, password } = body;
 
-    // Demo credentials
     if (
         username !== "admin" ||
         password !== "1234"
@@ -21,22 +19,20 @@ export async function POST(request: Request) {
         );
     }
 
-    const cookieStore = await cookies();
+    const response = NextResponse.json({
+        message: "Login successful",
+    });
 
-    cookieStore.set(
+    response.cookies.set(
         "auth_token",
         "logged_in",
         {
             httpOnly: true,
-            secure:
-                process.env.NODE_ENV ===
-                "production",
             sameSite: "lax",
+            secure: process.env.NODE_ENV === "production",
             path: "/",
         }
     );
 
-    return NextResponse.json({
-        message: "Login successful",
-    });
+    return response;
 }

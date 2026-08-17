@@ -37,13 +37,40 @@
 // }
 
 
+// import type { Metadata } from "next";
+// import "./globals.css";
+// import AppWrapper from "./components/AppLayout";
+
+// export const metadata: Metadata = {
+//     title: "Users",
+//     description: "User management app",
+// };
+
+// export default function RootLayout({
+//     children,
+// }: Readonly<{
+//     children: React.ReactNode;
+// }>) {
+//     return (
+//         <html lang="en">
+//             <body className="min-h-screen flex flex-col">
+//                 <AppWrapper>
+//                     {children}
+//                 </AppWrapper>
+//             </body>
+//         </html>
+//     );
+// }
+
+
 import type { Metadata } from "next";
 import "./globals.css";
-import AppWrapper from "./components/AppWrapper";
+
+import AppLayout from "./components/AppLayout";
 
 export const metadata: Metadata = {
-    title: "Users",
-    description: "User management app",
+    title: "Omnie Solutions",
+    description: "User management application",
 };
 
 export default function RootLayout({
@@ -54,9 +81,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className="min-h-screen flex flex-col">
-                <AppWrapper>
+                <AppLayout>
                     {children}
-                </AppWrapper>
+                </AppLayout>
             </body>
         </html>
     );
