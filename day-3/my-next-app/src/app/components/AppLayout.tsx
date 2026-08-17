@@ -56,9 +56,7 @@ export default function AppLayout({
 
         checkAuth();
     }, [isLoginPage, router]);
-
-    // Login page doesn't need Header,
-    // Footer or UserProvider.
+    
     if (isLoginPage) {
         return <>{children}</>;
     }
@@ -81,6 +79,7 @@ export default function AppLayout({
 
             <main className="flex-1">
                 {children}
+                
             </main>
 
             <Footer />
