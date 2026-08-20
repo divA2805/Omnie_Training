@@ -1,26 +1,68 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { Employee, employees } from './fakeDatabase';
 
 @Injectable()
 export class EmployeeService {
-  create(createEmployeeDto: CreateEmployeeDto) {
-    return 'This action adds a new employee';
+  create(createEmployeeDto: CreateEmployeeDto): Employee {
+    const newID = employees.length + 1;
+    const newEmployee: Employee = {
+      id: newID,
+      name: createEmployeeDto.name,
+      dept: createEmployeeDto.dept,
+      project: createEmployeeDto.project,
+      rank: createEmployeeDto.rank,
+      email: createEmployeeDto.email,
+      salary: createEmployeeDto.salary,
+    };
+    employees.push(newEmployee);
+
+    return newEmployee;
   }
 
-  findAll() {
-    return `This action returns all employee`;
+getAll(): Employee[] {
+  return employees;
+}
+
+findOne(employeeId: number): Employee | undefined {
+  return employees.find(employee => employee.id === employeeId);
+
+}
+
+update(
+  employeeId: number,
+  updateEmployeeDto: UpdateEmployeeDto,
+): Employee | undefined {
+  const employee = employees.find(
+    employee => employee.id === employeeId,
+  );
+
+  if (!employee) {
+    return undefined;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employee`;
+  employee.name = updateEmployeeDto.name ?? employee.name;
+  employee.dept = updateEmployeeDto.dept ?? employee.dept;
+  employee.project = updateEmployeeDto.project ?? employee.project;
+  employee.rank = updateEmployeeDto.rank ?? employee.rank;
+  employee.email = updateEmployeeDto.email ?? employee.email;
+  employee.salary = updateEmployeeDto.salary ?? employee.salary;
+
+  return employee;
+}
+
+remove(employeeId: number): Employee | undefined {
+  const index = employees.findIndex(
+    employee => employee.id === employeeId,
+  );
+
+  if (index === -1) {
+    return undefined;
   }
 
-  update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    return `This action updates a #${id} employee`;
-  }
+  const deletedEmployee = employees.splice(index, 1);
 
-  remove(id: number) {
-    return `This action removes a #${id} employee`;
-  }
+  return deletedEmployee[0];
+}
 }
